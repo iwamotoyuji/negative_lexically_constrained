@@ -1,9 +1,9 @@
-### 概要
+# 概要
 - スタイル変換において，出力文生成時に特定の単語に対し負の制約をかけることで，その単語を出力しないようにする．
 - 入力文コーパスと出力文コーパスに対して，PMI を用いることで，負の制約をかける単語を決定する．
 - Formality Transfer (En)，Simplification (En)，SImplification (Ja) において，RNN, SAN, BART の3つのモデルで実験し，負の語彙制約の有効性を調査
 
-### 導入
+# 導入
 - fairseq を https://github.com/pytorch/fairseq/pull/2958 を参考にして改造し，ビームサーチに負の語彙制約を適用できるようにしています．公式の fairseq では動作しません．
 ``` bash
 git clone https://github.com/iwamotoyuji/fairseq-nlc.git -b nlc
@@ -17,8 +17,8 @@ pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cud
             --global-option="--fast_multihead_attn" ./
 ```
 
-## Formality Transfer
-### データの準備
+# Formality Transfer
+## データの準備
 - データセットは GYAFC の Entertainment_Music と Family_Relationships の両方を用います．
 - tokenizer fastBPE 等は自動でダウンロードされます．
 ``` bash
@@ -33,7 +33,7 @@ bash insert_tags_for_bidirectional.sh -b BART
 popd
 ```
 
-### モデルの訓練
+## モデルの訓練
 ``` bash
 pushd scripts/FT/train
 # RNN
@@ -51,10 +51,10 @@ bash finetune-BART.sh -n ${実験名} -g ${GPUのID} -s ${SEED値} -l large
 popd
 ```
 
-### モデルの選択
+## モデルの選択
 - 使用するモデルは validation データにおける BLEU が最大のモデル (checkpoint_best.pt) を使用します．
 
-### 負の語彙制約の生成
+## 負の語彙制約の生成
 - 閾値 Θ 以上の PMI を有する単語を制約対象とします．
 - Formality Transfer では先行研究に倣い，閾値を 0.5 とする．
 ``` bash
@@ -66,7 +66,7 @@ bash prepare_NLC.sh -c ${閾値 Θ} -b BART
 popd
 ```
 
-### モデルの評価
+## モデルの評価
 ``` bash
 pushd scripts/FT/eval
 # RNN および SAN
@@ -81,8 +81,8 @@ bash eval-multi-bleu.sh -n ${実験名} -g ${GPUのID} -c ${閾値 Θ} -b BART -
 popd
 ```
 
-## Simplification
-### データの準備
+# Simplification
+## データの準備
 - 訓練データセットは https://github.com/chaojiang06/wiki-auto が自動でダウンロードされます．
 - 評価データセットは https://github.com/facebookresearch/asset.git と https://github.com/cocoxu/simplification.git が自動でダウンロードされます．
 - tokenizer fastBPE 等は自動でダウンロードされます．
@@ -96,7 +96,7 @@ bash apply_bpe.sh -b BART -a
 popd
 ```
 
-### モデルの訓練
+## モデルの訓練
 ``` bash
 pushd scripts/Simplification-wikipedia/train
 # RNN
@@ -114,7 +114,7 @@ bash finetune-BART.sh -n ${実験名} -g ${GPUのID} -s ${SEED値} -l large -a
 popd
 ```
 
-### モデルの選択
+## モデルの選択
 - 使用するモデルは validation データにおける SARI が最大のモデルを使用します．
 - fairseq-interactive を用いていますが，fairseq-generate を用いた方が高速なので，改造することを推奨．その場合，Simplification-Ja を参考にしてください．
 - results/Simplification-wikipedia/wiki-auto/実験名/select-model/テストセット.log を見てスコアの高いモデルを選択します．
@@ -132,7 +132,7 @@ bash select-model.sh -n ${実験名} -g ${GPUのID} -b BART -l -a -t  # turkcorp
 popd
 ```
 
-### 負の語彙制約の生成
+## 負の語彙制約の生成
 - 閾値 Θ 以上の PMI を有する単語を制約対象とします．
 - Simplification では，閾値 Θ を validation により決定します．
 ``` bash
@@ -146,7 +146,7 @@ bash prepare_NLC.sh -c ${閾値 Θ} -b BART -a -v  # validation用
 popd
 ```
 
-### モデルの評価
+## モデルの評価
 - 閾値 Θ を決定するために validation を行う際は -v オプションをつけてください．
 ``` bash
 pushd scripts/Simplification-wikipedia/eval
@@ -168,8 +168,8 @@ bash eval-sari-bleu.sh -n ${実験名} -g ${GPUのID} -b BART -l -a -t -m ${モ�
 popd
 ```
 
-## Simplification-Ja
-### 導入
+# Simplification-Ja
+## 導入
 - 日本語の Simplification では [黒橋研が作成したfairseq](https://nlp.ist.i.kyoto-u.ac.jp/?BART%E6%97%A5%E6%9C%AC%E8%AA%9EPretrained%E3%83%A2%E3%83%87%E3%83%AB) を改造しています．公式の fairseq や上記で用いた fairseq では動作しません．
 - 必要なライブラリも [ここ](https://github.com/utanaka2000/fairseq/blob/japanese_bart_pretrained_model/JAPANESE_BART_README.md) に書いてあるので，適宜インストールしてください．
 ``` bash
@@ -184,7 +184,7 @@ pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cud
             --global-option="--fast_multihead_attn" ./
 ```
 
-### データの準備
+## データの準備
 - 訓練データセットは [SNOW T15 やさしい日本語コーパス](https://www.jnlp.org/GengoHouse/snow/t15) と [SNOW T23 やさしい日本語コーパス](https://www.jnlp.org/GengoHouse/snow/t23) を用います．
 - tokenizer fastBPE 等は自動でダウンロードされます．
 ``` bash
@@ -199,7 +199,7 @@ bash bash prepare_corpus.sh -r ${SNOW があるフォルダ} -l
 popd
 ```
 
-### モデルの訓練
+## モデルの訓練
 ``` bash
 pushd scripts/Simplification-Ja/train
 # RNN
@@ -217,7 +217,7 @@ bash finetune-BART.sh -n ${実験名} -g ${GPUのID} -s ${SEED値} -l large -a
 popd
 ```
 
-### モデルの選択
+## モデルの選択
 - 使用するモデルは validation データにおける SARI が最大のモデルを使用します．
 - results/Simplification-wikipedia/wiki-auto/実験名/select-model/テストセット.log を見てスコアの高いモデルを選択する．
 ``` bash
@@ -231,7 +231,7 @@ bash select-model.sh -n ${実験名} -g ${GPUのID} -b BART -l
 popd
 ```
 
-### 負の語彙制約の生成
+## 負の語彙制約の生成
 - 閾値 Θ 以上の PMI を有する単語を制約対象とします．
 - Simplification では，閾値 Θ を validation により決定します．
 ``` bash
@@ -248,7 +248,7 @@ bash prepare_NLC.sh -c ${閾値 Θ} -b BART -l -v  # validation用
 popd
 ```
 
-### モデルの評価
+## モデルの評価
 - 閾値 Θ を決定するために validation を行う際は -v オプションをつけてください．
 ``` bash
 pushd scripts/Simplification-Ja/eval
