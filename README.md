@@ -7,6 +7,7 @@
 - fairseq を https://github.com/pytorch/fairseq/pull/2958 を参考にして改造し，ビームサーチに負の語彙制約を適用できるようにしています．公式の fairseq では動作しません．
 ``` bash
 git clone https://github.com/iwamotoyuji/fairseq-nlc.git -b nlc
+cd fairseq-nlc
 pip install --editable ./
 cd ..
 git clone https://github.com/NVIDIA/apex
@@ -172,7 +173,8 @@ popd
 - 日本語の Simplification では [黒橋研が作成したfairseq](https://nlp.ist.i.kyoto-u.ac.jp/?BART%E6%97%A5%E6%9C%AC%E8%AA%9EPretrained%E3%83%A2%E3%83%87%E3%83%AB) を改造しています．公式の fairseq や上記で用いた fairseq では動作しません．
 - 必要なライブラリも [ここ](https://github.com/utanaka2000/fairseq/blob/japanese_bart_pretrained_model/JAPANESE_BART_README.md) に書いてあるので，適宜インストールしてください．
 ``` bash
-git clone https://github.com/iwamotoyuji/fairseq-nlc.git -b japanese_bart_pretrained_model_nlc
+git clone https://github.com/iwamotoyuji/fairseq-nlc.git -b japanese_bart_pretrained_model_nlc fairseq-nlc-ja
+cd fairseq-nlc-ja
 pip install --editable ./
 cd ..
 git clone https://github.com/NVIDIA/apex
