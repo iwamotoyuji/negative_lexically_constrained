@@ -40,13 +40,13 @@ def main():
                     if space_bpe_ids not in constrain_words:
                         constrain_words.append(space_bpe_word)
             if constrain_words:
-                constrain_text = '\t##' + '\t'.join(constrain_words)
+                constrain_text = '\t##' + '\t'.join(constrain_words) + '\n'
             else:
-                constrain_text = ""
+                constrain_text = '\n'
             constrain_text_list.append(constrain_text)
 
     with open(opt.output_file_path, 'w') as f:
-        f.write('\n'.join(constrain_text_list))
+        f.writelines(constrain_text_list)
     print(f"[Info] Dumped negative constrained inputs to {opt.output_file_path}")
 
 

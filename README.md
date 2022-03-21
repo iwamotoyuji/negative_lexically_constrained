@@ -195,7 +195,7 @@ bash apply_bpe.sh
 # BART-base
 bash prepare_corpus.sh -r ${SNOW があるフォルダ}
 # BART-large
-bash bash prepare_corpus.sh -r ${SNOW があるフォルダ} -l
+bash prepare_corpus.sh -r ${SNOW があるフォルダ} -l
 popd
 ```
 

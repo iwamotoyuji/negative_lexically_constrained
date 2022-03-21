@@ -3,7 +3,7 @@
 # --- PATH settings ---
 DATASETS_DIR=../../../datasets
 RESULT_DIR=../../../results/Simplification-Ja
-UTILS_DIR=../../../utils
+UTILS_DIR=/home/iwamoto/utils
 
 BPE_TOKENS=8000
 BART_SCALE=base

@@ -4,7 +4,7 @@
 DATASETS_DIR=../../../datasets
 PRE_TRAINED_DIR=../../../pre-trained/fairseq-BART
 RESULT_DIR=../../../results/Simplification-wikipedia
-UTILS_DIR=../../../utils
+UTILS_DIR=/home/iwamoto/utils
 
 BPE_TOKENS=16000
 BART_SCALE=base

@@ -4,7 +4,7 @@
 DATASETS_DIR=../../../datasets
 PRE_TRAINED_DIR=../../../pre-trained/fairseq-BART
 RESULT_DIR=../../../results/FT
-UTILS_DIR=../../../utils
+UTILS_DIR=/home/iwamoto/utils
 
 BPE_TOKENS=16000
 BART_SCALE=base
@@ -81,12 +81,12 @@ if [ $DOMAIN == "Combo" ]; then
 
         if [ $CONSTRAINT == 0 ]; then
             input=${input_dir}/test-to-formal-${d}.informal
-            result=${output_dir}/${d}
+            result=${output_dir}/result-${d}
             log=${output_dir}/eval-${d}.log
             arg=""
         else
             input=${input_dir}/test-to-formal-${d}-add-NLC_${CONSTRAINT}.informal
-            result=${output_dir}/${d}-NLC_${CONSTRAINT}
+            result=${output_dir}/result-${d}-NLC_${CONSTRAINT}
             log=${output_dir}/eval-${d}-NLC_${CONSTRAINT}.log
             arg="--constraints"
             paste -d "" ${input_dir}/test-to-formal-${d}.informal ${DATASETS_DIR}/GYAFC/${DOMAIN}/bpe${BPE_TOKENS}/NLC_${CONSTRAINT}-${d}.informal > $input

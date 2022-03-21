@@ -2,8 +2,8 @@
 
 # --- PATH settings ---
 DATASETS_DIR=../../../datasets
-PRE_TRAINED_DIR=../../../pre-trained/fairseq-JaBART
-RESOURCE_DIR=../../../resources
+PRE_TRAINED_DIR=/home/iwamoto/python/JaBART
+RESOURCE_DIR=/home/iwamoto/resources
 
 BART_SCALE=base
 while getopts d:hlr: OPT
@@ -27,17 +27,6 @@ SPLITER=$(dirname $0)/split_train_val.py
 PREPROCESSER=$(dirname $0)/jaBART_preprocess.py
 bpe_model=${PRE_TRAINED_DIR}/japanese_bart_${BART_SCALE}_2.0/sp.model
 bpe_dict=${PRE_TRAINED_DIR}/japanese_bart_${BART_SCALE}_2.0/dict.txt
-
-# --- Download JaBART ---
-mkdir -p $PRE_TRAINED_DIR
-pushd $PRE_TRAINED_DIR
-if [ -d ./japanese_bart_${BART_SCALE}_2.0 ]; then
-    echo "[Info] JaBART already exists, skipping download"
-else
-    echo "[Info] Downloading JaBART..."
-    wget http://lotus.kuee.kyoto-u.ac.jp/nl-resource/JapaneseBARTPretrainedModel/japanese_bart_${BART_SCALE}_2.0.tar.gz
-    tar -zxvf japanese_bart_${BART_SCALE}_2.0.tar.gz
-fi
 
 orig_path=${RESOURCE_DIR}/SNOW
 tok_path=${DATASETS_DIR}/SNOW/tok

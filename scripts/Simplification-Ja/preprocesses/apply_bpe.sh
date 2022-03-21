@@ -2,7 +2,7 @@
 
 # --- PATH settings ---
 DATASETS_DIR=../../../datasets
-UTILS_DIR=../../../utils
+UTILS_DIR=/home/iwamoto/utils
 
 BPE_TOKENS=8000
 while getopts b:d:hu: OPT

@@ -1,3 +1,4 @@
+import sys
 import argparse
 import zenhan
 from pyknp import Juman
@@ -35,16 +36,16 @@ def main():
             line = line.strip()
             line = zenhan.h2z(line)
             line = juman_split(line, jumanpp)
-            tok_list.append(line)
+            tok_list.append(line + '\n')
             line = bpe_encode(line, spm)
-            bpe_list.append(line)
+            bpe_list.append(line + '\n')
 
     with open(args.tok_file_path, 'w') as f:
-        f.write('\n'.join(tok_list))
+        f.writelines(tok_list)
     print(f"[Info] Dumped tokenized data to {args.tok_file_path}")
 
     with open(args.bpe_file_path, 'w') as f:
-        f.write('\n'.join(bpe_list))
+        f.writelines(bpe_list)
     print(f"[Info] Dumped bpe data to {args.bpe_file_path}")  
 
         
